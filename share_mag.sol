@@ -1,4 +1,4 @@
-pragma solidity ^0.4.0;
+pragma solidity ^0.8.14;
 contract share_market
 {
     struct company
@@ -19,10 +19,10 @@ contract share_market
     address share_market_head;
     address trade_executive;
     mapping (uint=>investor) investors;
-    function share_market()
+    constructor()
     {
         share_market_head=msg.sender;
-        starttime=now;
+        starttime=block.timestamp;
     }
     modifier onlyhead(address s)
     {
@@ -49,15 +49,15 @@ contract share_market
     }
     function make_inves(uint inv_id,uint compid,uint no) public
     {
-        if(now>(starttime+10 seconds))
+        if(block.timestamp>(starttime+10 seconds))
         {
             shares[compid].rate=shares[compid].rate+10;
-            starttime=now;
+            starttime=block.timestamp;
         }
-        if(now>(starttime+120 seconds))
+        if(block.timestamp>(starttime+120 seconds))
         {
             shares[compid].rate=shares[compid].rate-100;
-            starttime=now;
+            starttime=block.timestamp;
         }
         investors[inv_id].total_invesments=no;
         investors[inv_id].amount_spend+=(shares[compid].rate*no);
